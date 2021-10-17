@@ -34,7 +34,7 @@ public class merge {
 		int h = image1.getHeight(); 
 		for(int i=0; i<w; i++){
 		for(int j=0; j<h; j++){
-		int rgb1 = image1.getRGB(i,j); /* Accéder au pixel (i, j) */
+		int rgb1 = image1.getRGB(i,j);
 		int rgb2 = image1.getRGB(i,j);
 		if (rgb1 > rgb2) {
 		image1.setRGB(i, j, rgb1);
