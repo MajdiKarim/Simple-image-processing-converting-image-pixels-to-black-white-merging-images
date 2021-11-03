@@ -1,10 +1,13 @@
+package ex2;
+
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
-
+import rgbeditor.*;
 public class merge {
 
 	public static void main(String[] args) {
@@ -18,6 +21,8 @@ public class merge {
 		File g = new File(seconds_image);
 		BufferedImage image1 = null;
 		BufferedImage image2 = null;
+		
+
 		try {
 			image1 = ImageIO.read(f);
 		}
@@ -25,7 +30,7 @@ public class merge {
 			
 		}
 		try {
-			image2 = ImageIO.read(f);
+			image2 = ImageIO.read(g);
 		}
 		catch (IOException e) {
 			
@@ -34,21 +39,31 @@ public class merge {
 		int h = image1.getHeight(); 
 		for(int i=0; i<w; i++){
 		for(int j=0; j<h; j++){
-		int rgb1 = image1.getRGB(i,j);
-		int rgb2 = image1.getRGB(i,j);
-		if (rgb1 > rgb2) {
-		image1.setRGB(i, j, rgb1);
+	
+	    int gray1 = image1.getRGB(i,j);
+	    RGBEditor rgbObj1 =  new RGBEditor(gray1);
+        int[] rgbArray1 = rgbObj1.getRGBArray();
+        int pixel_value1 = rgbArray1[0];
+	    
+	    int gray2= image2.getRGB(i,j);
+	    RGBEditor rgbObj2 =  new RGBEditor(gray2);
+	    int[] rgbArray2 = rgbObj2.getRGBArray();
+        int pixel_value2 = rgbArray2[0];
+
+		if (pixel_value1 > pixel_value2) {
+		image1.setRGB(i, j, rgbObj1.getRGBint());
 		}
 		else {
 		
-		image1.setRGB(i, j, rgb2);
+		image1.setRGB(i, j, rgbObj2.getRGBint());
 		
+		}
 		}
 		}
 		System.out.print("Enter the corresponding path where to the processed image will be stored\n");  
 		String processed = sc.nextLine();     
 		try { 
-			ImageIO.write(image1, "JPG", new File(processed));
+			ImageIO.write(image1, "JPEG", new File(processed));
 			}
 			catch (IOException e) { e.printStackTrace();}
 		
@@ -61,7 +76,6 @@ public class merge {
 		
 		
 		
-	}
+	
 
 	}}
-
